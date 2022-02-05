@@ -5,22 +5,49 @@ class Input extends Component {
     super();
     this.state = {
       firstName: "",
+      lastName: "",
+      touched: {
+        firstName: false,
+        lastName: false,
+      },
     };
     this.handleInputChange = this.handleInputChange.bind(this);
   }
 
-  handleInputChange(event) {
+  handleInputChange = (event) => {
     this.setState({
       firstName: event.target.value,
+    });
+  };
+
+  handleOnBlur(name) {
+    this.setState({
+      touched: { ...this.state.touched, [name]: true },
     });
   }
 
   render() {
-    console.log("this.state.firstName", this.state.firstName);
     return (
       <>
         <label>Please enter your first Name</label>
-        <input onChange={this.handleInputChange} value={this.state.firstName} />
+        <input
+          onChange={this.handleInputChange}
+          value={this.state.firstName}
+          onBlur={() => this.handleOnBlur("firstName")}
+        />
+        {this.state.touched.firstName === true && !this.state.firstName ? (
+          <div>Sorry you need to enter a first name!</div>
+        ) : (
+          ""
+        )}
+        <br />
+        {/* <label>Please enter your last Name</label>
+
+        <input
+          onChange={this.handleInputChange}
+          // value={this.state.lastName}
+          onBlur={() => this.handleOnBlur("lastName")}
+        /> */}
       </>
     );
   }
